@@ -11,27 +11,15 @@ MidiMapper.prototype = {
   init: function init(config) {
     this.mapping = config.mapping;
     this.sampleEnabledColor = this.sampleEnabledColor || config.sampleEnabledColor;
-    this._initMidi(config).then(this._initOutput.bind(this));
+    this._initMidi(config);
   },
 
   _initMidi: function _initMidi() {
-    return navigator.requestMIDIAccess({
-      sysex: false
-    }).then(this._onMidiSuccess.bind(this));
+    Midi.init(false).then(this._onMidiSuccess.bind(this));
   },
 
-  _initOutput: function _initOutput() {
-    this.output = new LaunchpadOutput({
-      midi: this.midi
-    });
-
-    this._lightSampleEnabledButtons();
-  },
-
-  _onMidiSuccess: function _onMidiSuccess(midiAccess) {
-    this.midi = midiAccess;
-
-    var inputs = this.midi.inputs.values();
+  _initInputs: function _initInputs(midi) {
+    var inputs = midi.inputs.values();
     // loop over all available inputs and listen for any MIDI input
     for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
       // each time there is a midi message call the onMIDIMessage function
@@ -39,10 +27,23 @@ MidiMapper.prototype = {
     }
   },
 
+  _initOutput: function _initOutput(midi) {
+    this.output = new LaunchpadOutput({
+      midi: midi
+    });
+
+    this._lightSampleEnabledButtons(midi);
+  },
+
+  _onMidiSuccess: function _onMidiSuccess(midi) {
+    this.midi = midi;
+
+    this._initInputs(midi);
+    this._initOutput(midi);
+  },
+
   _onMidiMessage: function _onMidiMessage(message) {
     var data = message.data;
-
-    console.log(data);
 
     var key = data[1];
     var command = data[2];
