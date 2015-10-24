@@ -5,16 +5,23 @@ var MidiMapper = function MidiMapper(config) {
 MidiMapper.prototype = {
   midi: null,
   mapping: null,
+  output: null,
 
   init: function init(config) {
-    this._initMidi(config);
     this.mapping = config.mapping;
+    this._initMidi(config).then(this._initOutput.bind(this));
   },
 
   _initMidi: function _initMidi() {
-    navigator.requestMIDIAccess({
+    return navigator.requestMIDIAccess({
       sysex: false
     }).then(this._onMidiSuccess.bind(this));
+  },
+
+  _initOutput: function _initOutput() {
+    this.output = new LaunchpadOutput({
+      midi: this.midi
+    });
   },
 
   _onMidiSuccess: function _onMidiSuccess(midiAccess) {
@@ -43,8 +50,10 @@ MidiMapper.prototype = {
 
     if (command === 127) {
       this._playSample(sampleName);
+      this._ledOn(key, 'green', true);
     } else {
       this._stopSample(sampleName);
+      this._ledOff(key);
     }
   },
 
@@ -58,6 +67,14 @@ MidiMapper.prototype = {
 
   _stopSample: function _stopSample(name) {
     sampleBank.stop(name);
+  },
+
+  _ledOn: function _ledOn(key, color, full) {
+    this.output && this.output.ledOn(key, color, full);
+  },
+
+  _ledOff: function _ledOff(key) {
+    this.output && this.output.ledOff(key)
   }
 };
 
