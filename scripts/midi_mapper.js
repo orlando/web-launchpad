@@ -2,15 +2,16 @@ var MidiMapper = function MidiMapper(config) {
   this.init(config);
 };
 
-MidiMapper.prototype = {
+MidiMapper.prototype = Object.create({});
+
+Object.assign(MidiMapper.prototype, {
   midi: null,
   mapping: null,
   output: null,
   sampleEnabledColor: 'amber',
 
   init: function init(config) {
-    this.mapping = config.mapping;
-    this.sampleEnabledColor = this.sampleEnabledColor || config.sampleEnabledColor;
+    Object.assign(this, config);
     this._initMidi(config);
   },
 
@@ -25,6 +26,8 @@ MidiMapper.prototype = {
       // each time there is a midi message call the onMIDIMessage function
       input.value.onmidimessage = this._onMidiMessage.bind(this);
     }
+
+    this.initInputs && this.initInputs(midi);
   },
 
   _initOutput: function _initOutput(midi) {
@@ -32,7 +35,7 @@ MidiMapper.prototype = {
       midi: midi
     });
 
-    this._lightSampleEnabledButtons(midi);
+    this.initOutputs && this.initOutputs(midi);
   },
 
   _onMidiSuccess: function _onMidiSuccess(midi) {
@@ -43,23 +46,11 @@ MidiMapper.prototype = {
   },
 
   _onMidiMessage: function _onMidiMessage(message) {
-    var data = message.data;
+    this.onMidiMessage && this.onMidiMessage(message);
+  },
 
-    var key = data[1];
-    var command = data[2];
-    var sampleName = this._sampleName(key);
-
-    if (!sampleName) {
-      return;
-    }
-
-    if (command === 127) {
-      this._playSample(sampleName);
-      this._ledOn(key, 'green', true);
-    } else {
-      this._stopSample(sampleName);
-      this._lightSampleEnabledButton(key);
-    }
+  _getSample: function _getSample(name) {
+    return sampleBank.get(name);
   },
 
   _sampleName: function _sampleName(key) {
@@ -84,19 +75,5 @@ MidiMapper.prototype = {
 
   _mappedKeys: function _mappedKeys() {
     return Object.keys(this.mapping);
-  },
-
-  _lightSampleEnabledButtons: function _lightSampleEnabledButtons() {
-    this._mappedKeys().forEach(function (key) {
-      this._lightSampleEnabledButton(key);
-    }, this);
-  },
-
-  _lightSampleEnabledButton: function _lightSampleEnabledButton(key) {
-    this._ledOn(key, this.sampleEnabledColor);
   }
-};
-
-Object.defineProperty(MidiMapper.prototype, 'constructor', {
-  value: MidiMapper
 });

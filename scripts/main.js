@@ -28,7 +28,7 @@
     samples: samples
   });
 
-  var mapping = new MidiMapper({
+  var mapping = new ActiveMapper({
     mapping: {
       48: 'kick1',
       49: 'freeze1',

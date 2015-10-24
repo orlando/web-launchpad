@@ -15,17 +15,15 @@ LaunchpadOutput.COLOR_CODES = {
 
 LaunchpadOutput.OFF_CODE = 12;
 
-LaunchpadOutput.prototype = {
+LaunchpadOutput.prototype = Object.create({});
+
+Object.assign(LaunchpadOutput.prototype, {
   init: function init(config) {
     this.midi = config.midi;
     this._storeOutput();
   },
 
   _storeOutput: function _getOutput() {
-    // outputs is an iterator
-    // we only need one output to send any message we want
-    // in the case of launchpad, returns an output for each key
-    // but the output interface is the same
     this.output = this.midi.outputs.values().next().value;
   },
 
@@ -48,8 +46,4 @@ LaunchpadOutput.prototype = {
   _sendMessage: function _sendMessage(message) {
     this.output.send(message);
   }
-};
-
-Object.defineProperty(LaunchpadOutput.prototype, 'constructor', {
-  value: LaunchpadOutput
 });
