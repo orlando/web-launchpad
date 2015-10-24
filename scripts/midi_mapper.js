@@ -6,9 +6,11 @@ MidiMapper.prototype = {
   midi: null,
   mapping: null,
   output: null,
+  sampleEnabledColor: 'amber',
 
   init: function init(config) {
     this.mapping = config.mapping;
+    this.sampleEnabledColor = this.sampleEnabledColor || config.sampleEnabledColor;
     this._initMidi(config).then(this._initOutput.bind(this));
   },
 
@@ -22,6 +24,8 @@ MidiMapper.prototype = {
     this.output = new LaunchpadOutput({
       midi: this.midi
     });
+
+    this._lightSampleEnabledButtons();
   },
 
   _onMidiSuccess: function _onMidiSuccess(midiAccess) {
@@ -53,7 +57,7 @@ MidiMapper.prototype = {
       this._ledOn(key, 'green', true);
     } else {
       this._stopSample(sampleName);
-      this._ledOff(key);
+      this._lightSampleEnabledButton(key);
     }
   },
 
@@ -75,6 +79,20 @@ MidiMapper.prototype = {
 
   _ledOff: function _ledOff(key) {
     this.output && this.output.ledOff(key)
+  },
+
+  _mappedKeys: function _mappedKeys() {
+    return Object.keys(this.mapping);
+  },
+
+  _lightSampleEnabledButtons: function _lightSampleEnabledButtons() {
+    this._mappedKeys().forEach(function (key) {
+      this._lightSampleEnabledButton(key);
+    }, this);
+  },
+
+  _lightSampleEnabledButton: function _lightSampleEnabledButton(key) {
+    this._ledOn(key, this.sampleEnabledColor);
   }
 };
 

@@ -8,6 +8,7 @@ LaunchpadOutput.COLOR_CODES = {
   'amber': 29,
   'amberFull': 63,
   'yellow': 62,
+  'yellowFull': 62,
   'green': 28,
   'greenFull': 60
 };
