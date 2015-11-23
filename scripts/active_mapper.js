@@ -22,6 +22,8 @@ Object.assign(ActiveMapper.prototype, {
       sample.rewind();
       sample.play();
       this._ledOn(key, 'green', true);
+    } else {
+      this._ledOff(key);
     }
   }
 });

@@ -1,0 +1,41 @@
+.grid {
+  width: 560px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.row {
+  width: 100%;
+}
+
+.square,
+.circle {
+  float: left;
+  border: 1px solid gray;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.clearfix:before,
+.clearfix:after,
+.row:before,
+.row:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after,
+.row:after {
+  clear: both;
+}
+
+.text-center {
+  text-align: center;
+}
