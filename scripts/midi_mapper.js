@@ -13,6 +13,7 @@ Object.assign(MidiMapper.prototype, {
   init: function init(config) {
     Object.assign(this, config);
     this._initMidi(config);
+    this._initUiMapper();
   },
 
   _initMidi: function _initMidi() {
@@ -36,6 +37,10 @@ Object.assign(MidiMapper.prototype, {
     });
 
     this.initOutputs && this.initOutputs(midi);
+  },
+
+  _initUiMapper: function _initUiMapper() {
+    this.ui = new UIMapper({});
   },
 
   _onMidiSuccess: function _onMidiSuccess(midi) {
@@ -67,10 +72,12 @@ Object.assign(MidiMapper.prototype, {
 
   _ledOn: function _ledOn(key, color, full) {
     this.output && this.output.ledOn(key, color, full);
+    this.ui && this.ui.buttonOn(key, color, full);
   },
 
   _ledOff: function _ledOff(key) {
     this.output && this.output.ledOff(key)
+    this.ui && this.ui.buttonOff(key);
   },
 
   _mappedKeys: function _mappedKeys() {
