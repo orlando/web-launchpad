@@ -14,7 +14,7 @@ I developed this demo for a talk that I gave at [Chilango Rails](http://chilango
 ## ToDo
 
 * [X] Light this baby up (turn on leds)
-* [ ] An interface maybe?
+* [X] An interface maybe?
 * [ ] Be able to record yourself sampling
 
 ## License
