@@ -47,9 +47,6 @@
 
     _ledOffHandler: function _ledOffHandler(key) {
       this.output && this.output.ledOff(key);
-    },
-
-    ledOff: function ledOff() {
     }
   });
 
