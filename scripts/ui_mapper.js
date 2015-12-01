@@ -22,6 +22,16 @@ UIMapper.mapping = {
   109: [0,5],
   110: [0,6],
   111: [0,7],
+
+  104: [0,0],
+  105: [0,1],
+  106: [0,2],
+  107: [0,3],
+  108: [0,4],
+  109: [0,5],
+  110: [0,6],
+  111: [0,7],
+
   0: [1,0],
   1: [1,1],
   2: [1,2],
@@ -78,15 +88,27 @@ UIMapper.mapping = {
   101: [7,5],
   102: [7,6],
   103: [7,7],
+  112: [8,0],
+  113: [8,1],
+  114: [8,2],
+  115: [8,3],
+  116: [8,4],
+  117: [8,5],
+  118: [8,6],
+  119: [8,7]
 };
 
-UIMapper.prototype = Object.create(EventEmitter.prototype);
+UIMapper.prototype = Object.create(Base);
 
 Object.assign(UIMapper.prototype, {
-  output: null,
+  events: {
+    'ledOn': '_ledOnHandler',
+    'ledOff': '_ledOffHandler',
+  },
 
   init: function init(config) {
-    Object.assign(this, config);
+    this._bindAll();
+    this._listenEvents();
     this._initElement();
   },
 
@@ -117,5 +139,13 @@ Object.assign(UIMapper.prototype, {
     var columnElement = rowElement.children[column];
 
     return columnElement;
+  },
+
+  _ledOnHandler: function _ledOnHandler(key, color, full) {
+    this.buttonOn(key, color, full);
+  },
+
+  _ledOffHandler: function _ledOffHandler(key) {
+    this.buttonOff(key);
   }
 });

@@ -15,7 +15,7 @@ LaunchpadOutput.COLOR_CODES = {
 
 LaunchpadOutput.OFF_CODE = 12;
 
-LaunchpadOutput.prototype = Object.create(EventEmitter.prototype);
+LaunchpadOutput.prototype = Object.create(Base);
 
 Object.assign(LaunchpadOutput.prototype, {
   init: function init(config) {
@@ -38,14 +38,11 @@ Object.assign(LaunchpadOutput.prototype, {
     if (code) {
       this._sendMessage(message);
     }
-
-    this.emitEvent('ledOn', [key, color, full]);
   },
 
   ledOff: function ledOff(key) {
     var message = [144, key, LaunchpadOutput.OFF_CODE];
     this._sendMessage([144, key, LaunchpadOutput.OFF_CODE]);
-    this.emitEvent('ledOff', [key]);
   },
 
   _sendMessage: function _sendMessage(message) {
