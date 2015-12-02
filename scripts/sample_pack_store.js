@@ -55,7 +55,16 @@
     16: 'samples/twerktrap/synth2.wav',
     3: 'samples/twerktrap/drumloop.wav',
     5: 'samples/twerktrap/sfx.wav',
-    20: 'samples/twerktrap/voice.wav',
+    20: 'samples/twerktrap/voice.wav'
+  };
+
+  SamplePackStore.samplePacks.liquidtrap = {
+    0: 'samples/liquidtrap/kick.wav',
+    16: 'samples/liquidtrap/snare.wav',
+    32: 'samples/liquidtrap/bass.wav',
+    5: 'samples/liquidtrap/lead1.wav',
+    6: 'samples/liquidtrap/lead2.wav',
+    7: 'samples/liquidtrap/intro.wav'
   };
 
   SamplePackStore.activeSamplePack = {
