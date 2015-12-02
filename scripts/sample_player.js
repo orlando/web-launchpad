@@ -10,11 +10,13 @@
       'onMidiMessage': '_onMidiMessageHandler',
       'samplePackChange': '_loadSamples'
     },
+    loop: false,
     samplePackName: null,
     samples: null,
     buffers: null,
 
     init: function init(config) {
+      Object.assign(this, config);
       this._bindAll();
       this.samples = {};
       this.buffers = {};
@@ -65,7 +67,9 @@
         var buffer = this.buffers[samplePackName][key];
 
         if (buffer) {
-          var sample = this.samples[samplePackName][key] = this._createNode(buffer);
+          var sample = this._createNode(buffer, this.loop);
+          this.samples[samplePackName][key] = sample;
+
           sample.start(0);
         }
 
@@ -79,9 +83,10 @@
       }
     },
 
-    _createNode: function (buffer) {
+    _createNode: function _createNode(buffer, loop) {
       var node = this.audioContext.createBufferSource();
       node.buffer = buffer;
+      node.loop = loop;
       node.connect(this.audioContext.destination);
 
       return node;
