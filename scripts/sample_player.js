@@ -1,4 +1,8 @@
 (function () {
+  /**
+   * SamplePlayer class
+   * @class
+   */
   var SamplePlayer = function SamplePlayer(config) {
     this.init(config);
   };
@@ -25,6 +29,12 @@
       this._listenEvents();
     },
 
+    /**
+     * Turns a SamplePack into an array of ArrayBuffers
+     *
+     * @param {Object} samplePack a SamplePack
+     * @returns {Void} returns void
+     */
     _loadSamples: function _loadSamples(samplePack) {
       var samplePlayer = this;
       var name = this.samplePackName = samplePack.name;
@@ -55,6 +65,12 @@
       }).load();
     },
 
+    /**
+     * Handles a MIDIMessageEvent
+     *
+     * @param {MIDIMessageEvent} message a MIDIMessageEvent
+     * @returns {Void} returns void
+     */
     _onMidiMessageHandler: function _onMidiMessageHandler(message) {
       var data = message.data;
 
@@ -83,6 +99,14 @@
       }
     },
 
+    /**
+     * Handles a MIDIMessageEvent
+     *
+     * @param {ArrayBuffer} buffer a sample ArrayBuffer
+     * @param {Boolean} loop indicates if we should loop this node
+     *
+     * @returns {AudioBufferSourceNode} returns an AudioBufferSourceNode ready to be played
+     */
     _createNode: function _createNode(buffer, loop) {
       var node = this.audioContext.createBufferSource();
       node.buffer = buffer;

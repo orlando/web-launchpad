@@ -103,10 +103,24 @@ Object.assign(UIMapper.prototype, {
     this._initElement();
   },
 
+  /**
+   * Store a reference to element
+   *
+   * @returns {Void} returns void
+   */
   _initElement: function _initElement() {
     this.element = document.getElementById('ui');
   },
 
+  /**
+   * Colors up a place in the grid
+   *
+   * @param {Integer} key key code
+   * @param {String} color color code
+   * @param {Boolean} full color modifer
+   *
+   * @returns {Void} returns void
+   */
   buttonOn: function buttonOn(key, color, full) {
     var position = UIMapper.mapping[key];
     var columnElement = this._findButton(position);
@@ -115,6 +129,13 @@ Object.assign(UIMapper.prototype, {
     columnElement.style.background = color;
   },
 
+  /**
+   * Removes color from a place in the grid
+   *
+   * @param {Integer} key key code
+   *
+   * @returns {Void} returns void
+   */
   buttonOff: function buttonOff(key) {
     var position = UIMapper.mapping[key];
     var columnElement = this._findButton(position);
@@ -122,6 +143,13 @@ Object.assign(UIMapper.prototype, {
     columnElement.style.background = 'none';
   },
 
+  /**
+   * Gets the place in the grid given a position
+   *
+   * @param {Array<Integer>} position [x,y] array
+   *
+   * @returns {HTMLNode} returns a DOM element
+   */
   _findButton: function _findButton(position) {
     var row = position[0];
     var column = position[1];

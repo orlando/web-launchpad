@@ -1,4 +1,10 @@
 (function () {
+  /**
+   * SamplePackStore is a global store that contains
+   * all the samples that we have
+   *
+   * @constructor
+   */
   var SamplePackStore = window.SamplePackStore = Object.create({});
 
   Object.assign(SamplePackStore, {
@@ -13,6 +19,12 @@
     }
   });
 
+  /**
+   * Format is simple
+   *
+   * key: Launchpad key code
+   * value: Sample URL
+   */
   SamplePackStore.samplePacks.firstOfTheYear = {
     48: '/samples/firstyear/kick1.wav',
     49: '/samples/firstyear/freeze1.wav',
